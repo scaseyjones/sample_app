@@ -13,7 +13,8 @@
       <%= render 'layouts/header' %>
       <div id="content">
         <% flash.each do |key, value| %>
-          # <div class="flash <%= key %>"><%= value %></div>
+          <!--<div class="flash <%= key %>"><%= value %></div>
+          # used rail content_tag to clean up code from exercise 8.6.4 -->
           <%= content_tag(:div, value, :class => "flash #{key}" ) %>
           <% end %>
         <%= yield %>  
