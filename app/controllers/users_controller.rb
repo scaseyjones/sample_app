@@ -5,7 +5,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @title = @user.name
+    @microposts = @user.microposts.paginate(:page => params[:page])
+    @title = CGI.escapeHTML(@user.name) # added cgi.escapeHTML method wrapper, what does this do?
   end
 
   def new
@@ -56,9 +57,11 @@ class UsersController < ApplicationController
   end
 
   private
-    def authenticate
-      deny_access unless signed_in?
-    end
+    # move authenticate to the sessions helper so it will be available in microposts controller too
+    #
+    # def authenticate
+    #   deny_access unless signed_in?
+    # end
     
     def correct_user
       @user = User.find(params[:id])

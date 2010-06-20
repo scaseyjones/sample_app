@@ -30,7 +30,9 @@ class User < ActiveRecord::Base
 
   attr_accessor :password
   attr_accessible :name, :email, :password, :password_confirmation
-
+  
+  has_many  :microposts, :dependent => :destroy 
+  
   EmailRegex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   validates_presence_of :name
@@ -65,6 +67,11 @@ class User < ActiveRecord::Base
     # reached the end of the method
   end
   
+  def feed
+    # This is preliminary. See Chapter 12 for the full implementation
+    Micropost.all(:conditions => ["user_id = ?", id])
+  end
+
   private
     def encrypt_password
       unless password.nil?
